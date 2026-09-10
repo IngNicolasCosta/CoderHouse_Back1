@@ -4,15 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}} | Turnos y Reservas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
     {{> navbar}}
 
     <main class="container">
+      <p class="eyebrow">// sistema de turnos y reservas &middot; node + express + mongodb</p>
       <h1 class="page-title">{{title}}</h1>
       {{{body}}}
     </main>
+
+    <footer class="footer">
+      <span>// backend en capas &middot; routes &rarr; controllers &rarr; services &rarr; repositories &rarr; dao</span>
+      <span>mongodb atlas &middot; socket.io &middot; handlebars</span>
+    </footer>
 
     <div id="toast" class="toast" hidden></div>
 
