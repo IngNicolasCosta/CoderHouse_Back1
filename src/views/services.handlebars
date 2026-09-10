@@ -1,0 +1,97 @@
+<p class="lead">
+  Listado de servicios leido desde MongoDB. Cualquier alta, baja o cambio de disponibilidad
+  (desde esta vista o desde la API REST) se refleja aca sin recargar la pagina.
+</p>
+
+<section class="card">
+  <h2>Nuevo servicio</h2>
+  <form id="service-form" class="form-grid" autocomplete="off">
+    <label>
+      Nombre
+      <input type="text" name="name" required minlength="3" placeholder="Consulta clinica" />
+    </label>
+    <label>
+      Categoria
+      <input
+        type="text"
+        name="category"
+        required
+        minlength="3"
+        list="categories"
+        placeholder="salud"
+      />
+      <datalist id="categories">
+        {{#each categories}}
+          <option value="{{this}}"></option>
+        {{/each}}
+      </datalist>
+    </label>
+    <label class="full">
+      Descripcion
+      <input
+        type="text"
+        name="description"
+        required
+        minlength="10"
+        placeholder="Consulta de 30 minutos con profesional matriculado"
+      />
+    </label>
+    <label>
+      Duracion (minutos)
+      <input type="number" name="duration" required min="1" step="1" value="30" />
+    </label>
+    <label>
+      Precio
+      <input type="number" name="price" required min="0" step="0.01" value="0" />
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" name="available" checked />
+      Disponible
+    </label>
+    <button type="submit" class="btn primary">Crear servicio</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Servicios <span id="services-count" class="badge">{{services.length}}</span></h2>
+
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Categoria</th>
+          <th>Duracion</th>
+          <th>Precio</th>
+          <th>Disponible</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="services-list">
+        {{#each services}}
+          <tr data-id="{{this.id}}">
+            <td>{{this.name}}</td>
+            <td class="muted">{{this.description}}</td>
+            <td><span class="chip">{{this.category}}</span></td>
+            <td>{{minutes this.duration}}</td>
+            <td>{{currency this.price}}</td>
+            <td>
+              {{#if this.available}}
+                <span class="tag ok">Si</span>
+              {{else}}
+                <span class="tag off">No</span>
+              {{/if}}
+            </td>
+            <td class="actions">
+              <button class="btn small" data-action="toggle" data-id="{{this.id}}">Cambiar</button>
+              <button class="btn small danger" data-action="delete" data-id="{{this.id}}">Eliminar</button>
+            </td>
+          </tr>
+        {{else}}
+          <tr class="empty-row"><td colspan="7">Todavia no hay servicios cargados.</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

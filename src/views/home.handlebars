@@ -1,0 +1,33 @@
+<p class="lead">
+  Panel del Sistema Backend de Turnos y Reservas. Los datos provienen de MongoDB Atlas
+  a traves de la misma arquitectura en capas que usa la API REST.
+</p>
+
+<section class="cards">
+  <article class="card stat">
+    <span class="stat-value">{{totalServices}}</span>
+    <span class="stat-label">Servicios cargados</span>
+  </article>
+  <article class="card stat">
+    <span class="stat-value">{{availableServices}}</span>
+    <span class="stat-label">Servicios disponibles</span>
+  </article>
+  <article class="card stat">
+    <span class="stat-value">{{totalBookings}}</span>
+    <span class="stat-label">Reservas totales</span>
+  </article>
+  <article class="card stat">
+    <span class="stat-value">{{pendingBookings}}</span>
+    <span class="stat-label">Reservas pendientes</span>
+  </article>
+</section>
+
+<section class="card">
+  <h2>Como recorrer el proyecto</h2>
+  <ul class="list">
+    <li><a href="/views/services">Servicios</a>: alta, baja y cambio de disponibilidad en tiempo real.</li>
+    <li><a href="/views/availability">Disponibilidad</a>: agenda de reservas y consultas en vivo.</li>
+    <li><code>GET /api/services?category=salud&amp;available=true&amp;page=1&amp;limit=5&amp;sortBy=price&amp;order=asc</code></li>
+    <li><code>GET /api/bookings/:bid</code> devuelve los servicios completos con <code>populate</code>.</li>
+  </ul>
+</section>

@@ -1,0 +1,99 @@
+<p class="lead">
+  Agenda de reservas y servicios disponibles, obtenidos de MongoDB con
+  <code>populate</code> sobre las referencias de cada reserva.
+</p>
+
+<section class="card">
+  <h2>Nueva reserva</h2>
+  <form id="booking-form" class="form-grid" autocomplete="off">
+    <label>
+      Cliente
+      <input type="text" name="clientName" required minlength="3" placeholder="Ana Perez" />
+    </label>
+    <label>
+      Email
+      <input type="email" name="clientEmail" required placeholder="ana@mail.com" />
+    </label>
+    <label>
+      Fecha
+      <input type="date" name="date" required />
+    </label>
+    <label>
+      Horario
+      <input type="time" name="time" required />
+    </label>
+    <label class="full">
+      Servicio inicial (opcional)
+      <select name="service" id="service-select">
+        <option value="">Sin servicios (se agregan despues)</option>
+        {{#each availableServices}}
+          <option value="{{this.id}}">{{this.name}} - {{currency this.price}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <button type="submit" class="btn primary">Crear reserva</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Agenda</h2>
+  <div id="agenda">
+    {{#if hasBookings}}
+      {{#each agenda}}
+        <div class="agenda-day">
+          <h3 class="agenda-date">{{this.date}}</h3>
+          <ul class="list">
+            {{#each this.bookings}}
+              <li class="booking" data-id="{{this.id}}">
+                <div class="booking-head">
+                  <strong>{{this.time}}</strong>
+                  <span>{{this.clientName}}</span>
+                  <span class="muted">{{this.clientEmail}}</span>
+                  <span class="tag status-{{this.status}}">{{statusLabel this.status}}</span>
+                </div>
+                <ul class="booking-services">
+                  {{#each this.services}}
+                    <li>
+                      {{this.service.name}}
+                      <span class="muted">x{{this.quantity}}</span>
+                      <span class="muted">({{currency this.service.price}})</span>
+                    </li>
+                  {{else}}
+                    <li class="muted">Sin servicios asociados</li>
+                  {{/each}}
+                </ul>
+                <div class="booking-foot">
+                  <span class="muted">Total estimado: {{currency this.totalPrice}} - {{minutes this.totalDuration}}</span>
+                  <span class="actions">
+                    <button class="btn small" data-booking-action="confirmed" data-id="{{this.id}}">Confirmar</button>
+                    <button class="btn small" data-booking-action="cancelled" data-id="{{this.id}}">Cancelar</button>
+                    <button class="btn small danger" data-booking-action="delete" data-id="{{this.id}}">Eliminar</button>
+                  </span>
+                </div>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/each}}
+    {{else}}
+      <p class="muted">Todavia no hay reservas cargadas.</p>
+    {{/if}}
+  </div>
+</section>
+
+<section class="card">
+  <h2>Consultas en vivo</h2>
+  <ul id="messages" class="messages">
+    {{#each messages}}
+      <li><strong>{{this.user}}:</strong> {{this.text}}</li>
+    {{else}}
+      <li class="muted">Sin consultas todavia.</li>
+    {{/each}}
+  </ul>
+
+  <form id="message-form" class="form-inline" autocomplete="off">
+    <input type="text" name="user" placeholder="Tu nombre" required minlength="2" />
+    <input type="text" name="text" placeholder="Escribi tu consulta" required minlength="1" />
+    <button type="submit" class="btn primary">Enviar</button>
+  </form>
+</section>
